@@ -1,21 +1,30 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour {
   private const float INPUT_THRESHOLD = 0.2f;
 
   private PlayerMotor motor;
+  private PlayerControls controls;
 
   private void Awake() {
     motor = GetComponent<PlayerMotor>();
+    controls = new PlayerControls();
+    SetupInputEvents();
   }
 
-  private void Update() {
-    if (Mathf.Abs(Input.GetAxis("Horizontal")) > INPUT_THRESHOLD) {
-      motor.inputHorizontal = Input.GetAxis("Horizontal");
-    }
-    else {
-      motor.inputHorizontal = 0.0f;
-    }
+  private void OnEnable() {
+    controls.Gameplay.Enable();
+  }
+
+  private void OnDisable() {
+    controls.Gameplay.Disable();
+  }
+
+  private void SetupInputEvents() {
+    controls.Gameplay.Jump.performed += ctx => { Debug.Log("Jump performed"); };
+    controls.Gameplay.Move.performed += ctx => { motor.inputHorizontal = ctx.ReadValue<float>(); };
+    controls.Gameplay.Move.canceled += ctx => { motor.inputHorizontal = 0.0f; };
   }
 }

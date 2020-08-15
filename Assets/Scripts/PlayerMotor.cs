@@ -64,7 +64,7 @@ public class PlayerMotor : MonoBehaviour {
       RaycastHit2D xHit = Physics2D.BoxCast(transform.position, collider.size, 0.0f, Mathf.Sign(currentPossibleSpeed.x) > 0 ? Vector2.right : Vector2.left, Mathf.Abs(currentPossibleSpeed.x), groundLayer);
       if (xHit.collider != null) {
         if (Mathf.Sign(currentPossibleSpeed.x) > 0 && xHit.point.x < transform.position.x + collider.size.x / 2.0f + currentPossibleSpeed.x ||
-          Mathf.Sign(currentPossibleSpeed.x) < 0 && xHit.point.x > transform.position.x - collider.size.x / 2.0f + currentPossibleSpeed.x) {
+            Mathf.Sign(currentPossibleSpeed.x) < 0 && xHit.point.x > transform.position.x - collider.size.x / 2.0f + currentPossibleSpeed.x) {
           limitX = xHit.point.x + (Mathf.Sign(currentPossibleSpeed.x) > 0 ? -collider.size.x / 2.0f : collider.size.x / 2.0f);
         }
       }
@@ -73,7 +73,8 @@ public class PlayerMotor : MonoBehaviour {
     if (Mathf.Abs(currentPossibleSpeed.y) > float.Epsilon) {
       RaycastHit2D yHit = Physics2D.BoxCast(transform.position, collider.size, 0.0f, Mathf.Sign(currentPossibleSpeed.y) > 0 ? Vector2.up : Vector2.down, Mathf.Abs(currentPossibleSpeed.y), groundLayer);
       if (yHit.collider != null) {
-        if (yHit.point.y > transform.position.y - collider.size.y / 2.0f + currentPossibleSpeed.y) {
+        if (Mathf.Sign(currentPossibleSpeed.y) > 0 && yHit.point.y < transform.position.y + collider.size.y / 2.0f + currentPossibleSpeed.y ||
+            Mathf.Sign(currentPossibleSpeed.y) < 0 && yHit.point.y > transform.position.y - collider.size.y / 2.0f + currentPossibleSpeed.y) {
           limitY = yHit.point.y + collider.size.y / 2.0f;
         }
       }
