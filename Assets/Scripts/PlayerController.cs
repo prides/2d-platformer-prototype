@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour {
   }
 
   private void SetupInputEvents() {
-    controls.Gameplay.Jump.performed += ctx => { Debug.Log("Jump performed"); };
+    controls.Gameplay.Jump.performed += ctx => { motor.JumpPressed = true; };
+    controls.Gameplay.Jump.canceled += ctx => { motor.JumpPressed = false; };
     controls.Gameplay.Move.performed += ctx => { motor.inputHorizontal = ctx.ReadValue<float>(); };
     controls.Gameplay.Move.canceled += ctx => { motor.inputHorizontal = 0.0f; };
   }
